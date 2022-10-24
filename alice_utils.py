@@ -93,8 +93,8 @@ def word_probability(diccionario):
 
 def display_histogram(diccionario):
     for palabra, valor in diccionario.items():
-        repre = '#' * round(valor)
-        print (f"{palabra}- {valor :30}{repre}")
+        repre = '#' * valor * 5
+        return  (f"{palabra}- {valor}{repre}")
  
 
 
@@ -118,7 +118,7 @@ ocurrence_d = count_words(alicia_sin)
 
 # DICCIONARIO: CLAVE-palabras //VALOR-probabilidad ocurrencia.
 probability_d = word_probability(ocurrence_d)
-# print(probability_d)
+print(probability_d)
 
 # COMPROBACIÓN de si la longitud del texto tokenizado sin stopwords y el sumatorio
 # de los valores del diccionario es igual:
@@ -129,6 +129,6 @@ probability_d = word_probability(ocurrence_d)
 
 #HISTOGRAMA: representación del diccionario de probabilidades.
 histogram = display_histogram(probability_d)
-print(histogram)
+# print(histogram)
 
 
