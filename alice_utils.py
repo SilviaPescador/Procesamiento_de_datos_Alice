@@ -25,13 +25,13 @@ def tokeniza(cadena):
     tokenizada = cadena.split(' ')
     return tokenizada
 
-def normalize(lista_palabras):
+def normalize(list_palabras):
     '''
     Devuelve lista de cadenas sin sufijos, simbolos, ni espacios indeseados, 
     con cada item en minúsculas.
     '''
     
-    return list(map(lambda x: remove_punctuation_suffix(x).lower(), lista_palabras))
+    return list(map(lambda x: remove_punctuation_suffix(x).lower(), list_palabras))
 
 # ____________________________USADAS_________________________________
 
@@ -58,22 +58,22 @@ def normalize_tokenize(texto):
     return limp
 
 
-def remove_stopwords(lista_palabras, predicado):
+def remove_stopwords(list_palabras, predicado):
     '''
     Elimina de una lista de cadenas, los items presentes en un set de stopwords.
     Devuelve una nueva lista de cadenas sin las stopwords.
     '''
-    return  list(filter(lambda x : x not in predicado, lista_palabras))
+    return  list(filter(lambda x : x not in predicado, list_palabras))
 
 
-def count_words(lista_palabras):
+def count_words(list_palabras):
     '''
     Devuelve un diccionario donde la clave es la palabra y su valor,
     el número de veces que se repite en una lista de palabras. (a ser
     posible ya normalizada y tokenizada)
     '''
     dict_ocurr = {}
-    for word in lista_palabras:
+    for word in list_palabras:
         if word not in dict_ocurr.keys():
             dict_ocurr[word] = 1
         else:
@@ -81,37 +81,54 @@ def count_words(lista_palabras):
     return dict_ocurr
 
 
-def word_probability(count_words):
-    return dict(map(lambda x : (x[0], round((x[1] / sum(count_words.values()))*100, 2)), count_words.items()))
+def word_probability(diccionario):
+    '''
+    Recibe un diccionario (palabras de un texto : nº ocurrencias de esa palabra), y devuelve 
+    otro cambiando los valores por su probabilidad de aparecer en el texto. 
+    Divide los valores, entre el nº total de palabras incluyendo repeticiones, *100.
+    
+    '''
+    return dict(map(lambda x :(x[0] , round((x[1] / sum(diccionario.values()))*100, 2)), diccionario.items()))
 
 
-def display_histogram(dict_word_prob):
-    for palabra, prob in dict_word_prob.items():
-        return (f"{palabra} - {'#'* int(prob)}")
+def display_histogram(diccionario):
+    for palabra, valor in diccionario.items():
+        repre = '#' * round(valor)
+        print (f"{palabra}- {valor :30}{repre}")
+ 
 
 
-# ___________________ALICICE IN WONDERLAND__________________________
+# ___________________CASO CONCRETO: ALICICE IN WONDERLAND__________________________
 
 # NORMALIZO Y TOKENIZO TEXTO ALICE Y STOPWORDS
-a_limp = normalize_tokenize(lines)
-sw_limp = normalize_tokenize(contents)
+clean_alice = normalize_tokenize(lines)
+clean_stopw = normalize_tokenize(contents)
 
 # PASO STOPWORDS A SET
-stopwords_set = set(sw_limp)
-#print(stopwords_set)
+stopwords_set = set(clean_stopw)
+# print(stopwords_set)
 
 # ELIMINO STOPWORDS DE ALICIA
-alicia_sin = remove_stopwords(a_limp, stopwords_set)
+alicia_sin = remove_stopwords(clean_alice, stopwords_set)
 # print(alicia_sin)
 
 # CREO DICCIONARIO: CLAVE-palabras//VALOR-nº ocurrencia de la palabra.
-alicia_ocurr = count_words(alicia_sin)
-# print(alicia_ocurr)
+ocurrence_d = count_words(alicia_sin)
+# print(ocurrence_d)
 
 # DICCIONARIO: CLAVE-palabras //VALOR-probabilidad ocurrencia.
-alicia_prob = word_probability(alicia_ocurr)
-print(alicia_prob)
+probability_d = word_probability(ocurrence_d)
+# print(probability_d)
+
+# COMPROBACIÓN de si la longitud del texto tokenizado sin stopwords y el sumatorio
+# de los valores del diccionario es igual:
+# print(len(alicia_sin))
+# total = sum(ocurrence_d.values())
+# print(total)
+
 
 #HISTOGRAMA: representación del diccionario de probabilidades.
-histogram = display_histogram(alicia_prob)
-# print(histogram)
+histogram = display_histogram(probability_d)
+print(histogram)
+
+
