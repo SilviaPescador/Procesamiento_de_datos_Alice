@@ -82,7 +82,7 @@ def count_words(lista_palabras):
 
 
 def word_probability(count_words):
-    return dict(map(lambda x : (x[0], round((x[1] / len(count_words)*100), 2)), count_words.items()))
+    return dict(map(lambda x : (x[0], round((x[1] / sum(count_words.values()))*100, 2)), count_words.items()))
 
 
 def display_histogram(dict_word_prob):
