@@ -48,11 +48,15 @@ def normalize_tokenize(texto):
     Devuelve una lista limpia de palabras(tokens).
     '''
     limp = texto.lower()
-    signos_out = '[\\!\\"\\\'\\“\\”\\“\\’\\‘\\#\\$\\%\\&\\(\\)\\*\\+\\,\\-\\—\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^_\\`\\{\\|\\}\\~\\´]'
-    limp = re.sub(signos_out , ' ', texto)
-    limp = limp.replace('\'s', '') 
     limp = re.sub("\\s+", ' ', limp)
     limp = re.sub("\d+", ' ', limp)
+    limp = limp.lower()
+    signos_out = '[\\!\\"\\\'\\“\\”\\“\\’\\‘\\#\\$\\%\\&\\(\\)\\*\\+\\,\\-\\—\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^_\\`\\{\\|\\}\\~\\´]'
+    limp = re.sub(signos_out , ' ', texto)
+    limp = limp.replace("ll","will")
+    limp = limp.replace('\'s', '') 
+    
+    
     #tokeniza una vez limpia
     limp = limp.split(' ')
     return limp
@@ -96,39 +100,5 @@ def display_histogram(diccionario):
         repre = '#' * valor * 5
         return  (f"{palabra}- {valor}{repre}")
  
-
-
-# ___________________CASO CONCRETO: ALICICE IN WONDERLAND__________________________
-
-# NORMALIZO Y TOKENIZO TEXTO ALICE Y STOPWORDS
-clean_alice = normalize_tokenize(lines)
-clean_stopw = normalize_tokenize(contents)
-
-# PASO STOPWORDS A SET
-stopwords_set = set(clean_stopw)
-# print(stopwords_set)
-
-# ELIMINO STOPWORDS DE ALICIA
-alicia_sin = remove_stopwords(clean_alice, stopwords_set)
-# print(alicia_sin)
-
-# CREO DICCIONARIO: CLAVE-palabras//VALOR-nº ocurrencia de la palabra.
-ocurrence_d = count_words(alicia_sin)
-# print(ocurrence_d)
-
-# DICCIONARIO: CLAVE-palabras //VALOR-probabilidad ocurrencia.
-probability_d = word_probability(ocurrence_d)
-print(probability_d)
-
-# COMPROBACIÓN de si la longitud del texto tokenizado sin stopwords y el sumatorio
-# de los valores del diccionario es igual:
-# print(len(alicia_sin))
-# total = sum(ocurrence_d.values())
-# print(total)
-
-
-#HISTOGRAMA: representación del diccionario de probabilidades.
-histogram = display_histogram(probability_d)
-# print(histogram)
 
 
