@@ -2,61 +2,25 @@ from alice_texts import *
 from tabulate import tabulate
 import re
 
-#____________________________PRUEBAS_______________________________
-def remove_punctuation_suffix(cadena):
-    '''
-    Elimina de una cadena:
-    - signos indeseados 
-    - sufijos
-    - espacios múltiples
-    - los números
-    Devuelve una cadena limpia.
-    '''
-    signos_out = '[\\!\\"\\“\\”\\’\\#\\$\\%\\&\\(\\)\\*\\+\\,\\-\\—\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^_\\`\\{\\|\\}\\~\\´]'
-    limp = re.sub(signos_out , ' ', cadena)
-    limp = limp.replace('\'s', '')
-    limp = re.sub("\\s+", ' ', limp)
-    limp = re.sub("\d+", ' ', limp)
-    return limp
-
-def tokeniza(cadena):
-    '''
-    Separa las palabras de una cadena y devuelve una lista de palabras.
-    '''
-    tokenizada = cadena.split(' ')
-    return tokenizada
-
-def normalize(list_palabras):
-    '''
-    Devuelve lista de cadenas sin sufijos, simbolos, ni espacios indeseados, 
-    con cada item en minúsculas.
-    '''
-    
-    return list(map(lambda x: remove_punctuation_suffix(x).lower(), list_palabras))
-
-# ____________________________USADAS_________________________________
-
 
 def normalize_tokenize(texto):
     '''
     Elimina de una cadena:
-    - signos indeseados 
-    - sufijos (- convierte i'll en i will)
+    - pasa palabras a minúsculas
     - espacios múltiples
     - números
-    - pasa palabras a minúsculas
+    - signos indeseados 
+    - sufijos (- convierte i'll en i will)
     - tokeniza la cadena
     Devuelve una lista limpia de palabras(tokens).
     '''
     limp = texto.lower()
     limp = re.sub("\\s+", ' ', limp)
     limp = re.sub("\d+", ' ', limp)
-    # limp = limp.lower()
     signos_out = '[\\!\\"\\\'\\“\\”\\“\\’\\‘\\#\\$\\%\\&\\(\\)\\*\\+\\,\\-\\—\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^_\\`\\{\\|\\}\\~\\´]'
     limp = re.sub(signos_out , ' ', limp)
     limp = limp.replace("ll","will")
     limp = limp.replace('\'s', '') 
-    
     
     #tokeniza una vez limpia
     limp = limp.split(' ')
