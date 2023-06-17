@@ -30,8 +30,9 @@ probability_d = word_probability(ocurrence_d)
 
 
 #HISTOGRAMA: representación del diccionario de probabilidades.
-histogram = display_histogram(probability_d)
-# print(histogram)
+print("Probabilidades:  ____________________________________________________________________________")
+display_histogram(probability_d)
+print("__________________________________________________________________________________________")
 
 
 

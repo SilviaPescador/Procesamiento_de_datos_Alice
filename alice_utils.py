@@ -1,4 +1,5 @@
 from alice_texts import *
+from tabulate import tabulate
 import re
 
 #____________________________PRUEBAS_______________________________
@@ -95,10 +96,17 @@ def word_probability(diccionario):
     return dict(map(lambda x :(x[0] , round((x[1] / sum(diccionario.values()))*100, 2)), diccionario.items()))
 
 
-def display_histogram(diccionario):
-    for palabra, valor in diccionario.items():
-        repre = '#' * valor * 5
-        return  (f"{palabra}- {valor}{repre}")
- 
+# def display_histogram(diccionario):
+#     for palabra, valor in diccionario.items():
+#         repre = '#' * int(valor * 5)
+#         print(f"{palabra}- {valor}{repre}")
+        
 
+def display_histogram(diccionario):
+       table_data = []
+       for palabra, valor in diccionario.items():
+           repre = '#' * int(valor * 5)
+           table_data.append([palabra, valor, repre])
+       headers = ["Palabra", "Valor", "Histograma"]
+       print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
 
