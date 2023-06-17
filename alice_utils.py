@@ -51,9 +51,9 @@ def normalize_tokenize(texto):
     limp = texto.lower()
     limp = re.sub("\\s+", ' ', limp)
     limp = re.sub("\d+", ' ', limp)
-    limp = limp.lower()
+    # limp = limp.lower()
     signos_out = '[\\!\\"\\\'\\“\\”\\“\\’\\‘\\#\\$\\%\\&\\(\\)\\*\\+\\,\\-\\—\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^_\\`\\{\\|\\}\\~\\´]'
-    limp = re.sub(signos_out , ' ', texto)
+    limp = re.sub(signos_out , ' ', limp)
     limp = limp.replace("ll","will")
     limp = limp.replace('\'s', '') 
     
@@ -96,6 +96,13 @@ def word_probability(diccionario):
     return dict(map(lambda x :(x[0] , round((x[1] / sum(diccionario.values()))*100, 2)), diccionario.items()))
 
 
+def sorted_word_probability(diccionario):
+    word_probabilities = word_probability(diccionario)
+    sorted_probabilities = sorted(word_probabilities.items(), key=lambda x: x[1], reverse=True)
+    sorted_dictionary = dict(sorted_probabilities)
+    return sorted_dictionary
+
+
 # def display_histogram(diccionario):
 #     for palabra, valor in diccionario.items():
 #         repre = '#' * int(valor * 5)
@@ -107,6 +114,6 @@ def display_histogram(diccionario):
        for palabra, valor in diccionario.items():
            repre = '#' * int(valor * 5)
            table_data.append([palabra, valor, repre])
-       headers = ["Palabra", "Valor", "Histograma"]
+       headers = ["Palabra", "Ocurrencia %", "Histograma"]
        print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
 
